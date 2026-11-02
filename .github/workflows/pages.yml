@@ -1,0 +1,58 @@
+name: Publish Ambient Trace Studio
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Restore approved website snapshot
+        run: |
+          python3 -m zipfile -e site.zip _site
+          mkdir -p _site/media/projects/mehen
+          cp ambient-trace-logo.mp4 _site/media/
+          cp preview-01.mp4 preview-02.mp4 preview-03.mp4 _site/media/projects/mehen/
+      - name: Verify every published file
+        run: |
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          root = Path('_site')
+          manifest = json.loads(Path('site-manifest.json').read_text())
+          actual = {p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_file()}
+          assert actual == set(manifest), 'Website file inventory differs from approval snapshot'
+          for path, expected in manifest.items():
+              assert hashlib.sha256((root / path).read_bytes()).hexdigest() == expected, path
+          pages = list(root.rglob('*.html'))
+          assert len(pages) == 14, 'Expected all 14 website pages'
+          for page in pages:
+              expected = 'noindex,nofollow' if page.name == '404.html' else 'index,follow'
+              assert 'content="' + expected + '"' in page.read_text(), page
+          print(f'Verified {len(manifest)} files and {len(pages)} approved pages')
+          PY
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+          retention-days: 1
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy approved website
+        id: deployment
+        uses: actions/deploy-pages@v4
