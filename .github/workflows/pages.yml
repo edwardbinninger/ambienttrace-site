@@ -17,16 +17,18 @@ jobs:
       - name: Restore approved website snapshot
         run: |
           python3 -m zipfile -e site.zip _site
-          mkdir -p _site/media/projects/mehen
-          cp ambient-trace-logo.mp4 _site/media/
-          cp preview-01.mp4 preview-02.mp4 preview-03.mp4 _site/media/projects/mehen/
       - name: Verify every published file
         run: |
           python3 - <<'PY'
-          import hashlib, json
+          import hashlib, json, shutil
           from pathlib import Path
           root = Path('_site')
           manifest = json.loads(Path('site-manifest.json').read_text())
+          for path in manifest:
+              if Path(path).suffix == '.mp4':
+                  target = root / path
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  shutil.copyfile(Path(path).name, target)
           actual = {p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_file()}
           assert actual == set(manifest), 'Website file inventory differs from approval snapshot'
           for path, expected in manifest.items():
