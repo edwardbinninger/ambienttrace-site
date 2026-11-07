@@ -3,7 +3,7 @@
   "404.html": "cde9b53a40166e1b1bf44733083338367cc0de399e516763078c477a699ffda9",
   "app-ads.txt": "9da4275a715a9436c73563e6f8b0fdb5c18766982dad8be928ffd01e230332f1",
   "apps/autumn-sky/index.html": "bcc9ff6251e76eb66724f563794fbb93bb2fe519ab967bea125df64e74cf2945",
-  "apps/boomyard/index.html": "adef8d2e0a74d54e1660d3e94b9b146884f3be096024ec1bef45898b958813f7",
+  "apps/boomyard/index.html": "f8e0bf4851ede98e7198c6a0acf5eaf3fa84fdd28c1fa28c7c2a49535b627072",
   "apps/index.html": "8c5f34f5679c009bc8f23b9f49237f9e423d4662d0ea8c6ad2c68affee81e14e",
   "apps/mazeforge/index.html": "3f326e7ecc81c99db3ef9e1ac3d4a51701ea1d47d765f815b947286ebdc4a3e8",
   "apps/mehen/index.html": "b185f438b41bec95f6bc2360e47e08ed0fc28a70cc5f5612c7733fe0b7c96fe3",
@@ -60,8 +60,9 @@
   "privacy/mehen/index.html": "ca8db624785602eac11d448ca66caee944ee2292578a3f16ba826031cf9894f4",
   "privacy/spritetailor/index.html": "728daf8ad5819f126add9aa05060365d15100b5c5c1c4067d1a324c4695c7848",
   "robots.txt": "efaaf5a1c256337311f562b4377922cfeed0f261ce8fd085abcd6a67fcbf1ff6",
-  "sitemap.xml": "6ccda313a780d70b6b456bcd999507959d3b057bbcb2302e41e8c3bbf927d7a9",
-  "support/index.html": "124b5c907229f5785556f6950dbaa0c566fe8a7e0f293ffad24f9f3eb6c7df9f",
+  "sitemap.xml": "73427be49cbac6ddb798e66acd48b23c1b2a6697c8f488eb8ead7c3b275c22fb",
+  "support/boomyard/index.html": "5678aa87022379d4eb170932be45fa59f7f02969eb0b211a2ebc6dac1c1ad93f",
+  "support/index.html": "bcfa9069ee1adf7e8e85f6c03234975cc8906c76c7d2c147b849a5bc7570cabc",
   "support/mehen/index.html": "aece26391f2f3b9a9b0968a1555411d8059298777ab8b3609df9e60dd32635ce",
   "support/spritetailor/index.html": "bb6382e7b11bc8deccb48700685927893821d1aed88c7e97c576ceaa09de5a33"
 }
