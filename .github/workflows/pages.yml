@@ -34,7 +34,7 @@ jobs:
           for path, expected in manifest.items():
               assert hashlib.sha256((root / path).read_bytes()).hexdigest() == expected, path
           pages = list(root.rglob('*.html'))
-          assert len(pages) == 17, 'Expected all 17 website pages'
+          assert len(pages) == 20, 'Expected all 20 website pages'
           for page in pages:
               expected = 'noindex,nofollow' if page.name == '404.html' else 'index,follow'
               assert 'content="' + expected + '"' in page.read_text(), page
