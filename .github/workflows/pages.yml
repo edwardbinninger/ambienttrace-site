@@ -21,6 +21,8 @@ jobs:
         run: |
           python3 - <<'PY'
           import hashlib, json, shutil
+          import xml.etree.ElementTree as ET
+          from urllib.parse import urlsplit
           from pathlib import Path
           root = Path('_site')
           manifest = json.loads(Path('site-manifest.json').read_text())
@@ -34,7 +36,10 @@ jobs:
           for path, expected in manifest.items():
               assert hashlib.sha256((root / path).read_bytes()).hexdigest() == expected, path
           pages = list(root.rglob('*.html'))
-          assert len(pages) == 20, 'Expected all 20 website pages'
+          routes = [urlsplit(node.text).path for node in ET.parse(root / 'sitemap.xml').findall('.//{*}loc')]
+          expected_pages = {'404.html'} | {route.lstrip('/') + 'index.html' for route in routes}
+          assert {page.relative_to(root).as_posix() for page in pages} == expected_pages, 'HTML routes and sitemap differ'
+          assert {'index.html','apps/index.html','support/index.html','privacy/index.html'} <= expected_pages, 'Core routes missing'
           for page in pages:
               expected = 'noindex,nofollow' if page.name == '404.html' else 'index,follow'
               assert 'content="' + expected + '"' in page.read_text(), page
